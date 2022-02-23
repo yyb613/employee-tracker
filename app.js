@@ -41,7 +41,7 @@ function init() {
                 viewEmployees();
                 break;
             case 'Add Employee':         // Add Employee
-                addEmployee();
+                addEmployee(); 
                 break;
             case 'Update Employee Role': // Update Employee Role
                 updateEmployeeRole();
@@ -60,6 +60,31 @@ function init() {
                 break;
         }
     })
+}
+
+// View Employees Function
+function viewEmployees() {
+
+}
+
+// Add Employee Function
+function addEmployee() {
+
+}
+
+// Update Employee Role Function
+function updateEmployeeRole() {
+
+}
+
+// Add Role Function
+function addRole() {
+
+}
+
+// View Roles Function
+function viewRoles() {
+
 }
 
 // View Departments function
