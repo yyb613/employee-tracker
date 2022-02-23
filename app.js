@@ -9,9 +9,10 @@ const db = mysql.createConnection({
     database: "employee_db"
 });
 
+// Error Handling
 db.connect(function (err) {
     if(err) throw err;
-    init()
+    init();
 })
 
 // Import Inquirer
@@ -22,21 +23,47 @@ function init() {
     inquirer.prompt([
         {
             type: 'list',
-            message: 'Hello what would you like to do?',
-            choices: ['View all Departments', 'Create new Department'],
+            message: 'What would you like to do?',
+            choices: [
+                'View All Employees',
+                'Add Employee',
+                'Update Employee Role',
+                'Add Role',
+                'View All Roles',
+                'View All Departments',
+                'Add Department'
+            ],
             name: "option"
         }
     ]).then(({option}) => {
-        if(option == 'View all Departments') {
-            viewDept()
-        } else if(option == 'Create new Department') {
-            createDept()
+        switch (option) {
+            case 'View All Employees':   // View all Employees
+                viewEmployees();
+                break;
+            case 'Add Employee':         // Add Employee
+                addEmployee();
+                break;
+            case 'Update Employee Role': // Update Employee Role
+                updateEmployeeRole();
+                break;
+            case 'Add Role':             // Add Role
+                addRole();
+                break;
+            case 'View All Roles':       // View All Roles
+                viewRoles();
+                break;
+            case 'View All Departments': // View All Departments
+                viewDepts();
+                break;
+            case 'Add Department':       // Add Department
+                addDept();
+                break;
         }
     })
 }
 
-// View Department function
-function viewDept() {
+// View Departments function
+function viewDepts() {
     db.query('SELECT * FROM department', (err, data) => {
         if(err) throw err;
         console.log('\n')
@@ -47,8 +74,8 @@ function viewDept() {
     })
 }
 
-// Create Department function
-function createDept() {
+// Add Department function
+function addDept() {
     inquirer.prompt([
         {
             type: 'input',
