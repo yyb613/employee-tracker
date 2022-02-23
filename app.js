@@ -64,26 +64,47 @@ function init() {
 
 // View Employees Function
 function viewEmployees() {
+// formatted table showing employee data, 
+// including employee ids, 
+// first names, 
+// last names, 
+// job titles, 
+// departments, 
+// salaries, 
+// and managers that the employees report to
 
 }
 
 // Add Employee Function
 function addEmployee() {
+// prompted to enter the employee’s first name, 
+// last name, 
+// role, 
+// and manager(and that employee is added to the database)
 
 }
 
 // Update Employee Role Function
 function updateEmployeeRole() {
+// prompted to select an employee to update and their new role (and this information is updated in the database)
 
 }
 
 // Add Role Function
 function addRole() {
+// prompted to enter name, 
+// salary, 
+// and department for the role (and that role is added to the database)
 
 }
 
 // View Roles Function
 function viewRoles() {
+// job title, 
+// role id, 
+// the department that role belongs to, 
+// salary for that role
+
 
 }
 
