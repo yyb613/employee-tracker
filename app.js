@@ -1,25 +1,35 @@
-// Import mysql2
-const mysql = require("mysql2");
+// Dependencies
+const mysql = require("mysql2");      // mysql2
+const art = require('ascii-art');     // ascii art
+const inquirer = require("inquirer"); // Inquirer
+require('dotenv').config()            // dotenv
 
 // Connect to database
 const db = mysql.createConnection({
     host: "localhost",
-    user: "root",
-    password: "root",
-    database: "employee_db"
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE
 });
 
 // Error Handling
 db.connect(function (err) {
     if(err) throw err;
-    init();
+    init(); // initialize app
 })
 
-// Import Inquirer
-const inquirer = require("inquirer");
+// Show Ascii Function
+// function showAscii() {
+//     art.font("Employee Tracker", 'doom', (err, rendered) => { 
+//         console.log('\n');
+//         console.log(rendered);
+//         console.log('\n');
+//     });
+// }
 
 // Init Function
 function init() {
+    // showAscii(); // show ascii
     inquirer.prompt([
         {
             type: 'list',
@@ -31,7 +41,8 @@ function init() {
                 'Add Role',
                 'View All Roles',
                 'View All Departments',
-                'Add Department'
+                'Add Department',
+                'Quit'
             ],
             name: "option"
         }
@@ -58,6 +69,9 @@ function init() {
             case 'Add Department':       // Add Department
                 addDept();
                 break;
+            case 'Quit':                 // Quit
+                console.log('Goodbye!');
+                process.exit();
         }
     })
 }
@@ -72,7 +86,12 @@ function viewEmployees() {
 // departments, 
 // salaries, 
 // and managers that the employees report to
-
+    db.query('SELECT * FROM employee', (err, data) => {
+        if (err) throw err;
+        console.log('\n');
+        console.table(data);
+        console.log('\n');
+    })
 }
 
 // Add Employee Function
@@ -112,11 +131,11 @@ function viewRoles() {
 function viewDepts() {
     db.query('SELECT * FROM department', (err, data) => {
         if(err) throw err;
-        console.log('\n')
-        console.table(data)
-        console.log('\n')
+        console.log('\n');
+        console.table(data);
+        console.log('\n');
 
-        init()
+        init();
     })
 }
 
