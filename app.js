@@ -124,6 +124,16 @@ function viewRoles() {
 // the department that role belongs to, 
 // salary for that role
 
+    db.query('SELECT * FROM role', (err, data) => {
+        if (err) throw err;
+        console.log('\n');
+        console.table(data);
+        console.log('\n');
+
+        init();
+    })
+
+
 
 }
 
