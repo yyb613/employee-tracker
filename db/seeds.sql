@@ -15,7 +15,7 @@ VALUES
 (5, "Team Analyst", 90000, 2),
 (6, "CEO", 1000000, 4),
 (7, "Executive Assistant", 500000, 4),
-(8, "Media Specialist", 80000, 4);
+(8, "Media Specialist", 80000, 3);
 
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
 VALUES

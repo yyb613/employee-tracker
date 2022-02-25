@@ -1,22 +1,21 @@
 // Dependencies
 const mysql = require("mysql2");      // mysql2
-const art = require('ascii-art');     // ascii art
+// const art = require('ascii-art');  // ascii art
 const inquirer = require("inquirer"); // Inquirer
 require('dotenv').config()            // dotenv
 
 // Connect to database
 const db = mysql.createConnection({
     host: "localhost",
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE
+    user: process.env.DB_USER,         // Username
+    password: process.env.DB_PASSWORD, // Password
+    database: process.env.DB_DATABASE  // Database
 });
 
-// Error Handling
 db.connect(function (err) {
     if(err) throw err;
     init(); // initialize app
-})
+});
 
 // Show Ascii Function
 // function showAscii() {
@@ -119,33 +118,24 @@ function addRole() {
 
 // View Roles Function
 function viewRoles() {
-// job title, 
-// role id, 
-// the department that role belongs to, 
-// salary for that role
+    const sqlString = `
+        SELECT role.id, role.title, role.salary, department.name AS department
+        FROM role
+        INNER JOIN department ON role.department_id=department.id;`
 
-    db.query('SELECT * FROM role', (err, data) => {
-        if (err) throw err;
-        console.log('\n');
-        console.table(data);
-        console.log('\n');
-
-        init();
+    db.query(sqlString, (err, data) => {
+        if (err) throw err;  // error handling
+        console.table(data); // show table
+        init();              // return to main menu
     })
-
-
-
 }
 
 // View Departments function
 function viewDepts() {
-    db.query('SELECT * FROM department', (err, data) => {
-        if(err) throw err;
-        console.log('\n');
-        console.table(data);
-        console.log('\n');
-
-        init();
+    db.query('SELECT * FROM department;', (err, data) => {
+        if(err) throw err;   // error handling
+        console.table(data); // show table
+        init();              // return to main menu
     })
 }
 
@@ -160,12 +150,11 @@ function addDept() {
     ]).then(({newDept}) => {
         const sqlString = `
         INSERT INTO department(name)
-        VALUES (?)`
+        VALUES (?);`
 
-        db.query(sqlString, [newDept], (err, result) => {
-            if(err) throw err;
-            // console.log(result)
-            init()
+        db.query(sqlString, [newDept], (err, result) => { // sql query
+            if(err) throw err; // error handling
+            init();            // return to main menu
         })
     })
 }
