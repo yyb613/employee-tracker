@@ -1,11 +1,13 @@
-USE employee_db;
+USE employee_db; -- USE DATABASE
 
+-- departments
 INSERT INTO department (name)
 VALUES ("Operations"),
 ("Analytics"),
 ("Marketing"),
 ("Executive");
 
+-- roles
 INSERT INTO role (id, title, salary, department_id)
 VALUES 
 (1,"General Manager", 100000, 1),
@@ -17,6 +19,7 @@ VALUES
 (7, "Executive Assistant", 500000, 4),
 (8, "Media Specialist", 80000, 3);
 
+-- employees
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
 VALUES
 (1, "Shaun", "Reed", 1, null), 

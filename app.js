@@ -100,6 +100,39 @@ function addEmployee() {
 // role, 
 // and manager(and that employee is added to the database)
 
+    inquirer.prompt([
+        {
+            type: 'input',
+            message: "What is your Employee's first name?",
+            name: 'fName'
+        },
+        {
+            type: 'input',
+            message: "What is your Employee's last name?",
+            name: 'lName'
+        },
+        {
+            type: 'input',
+            message: "What is your Employee's role?",
+            name: 'role'
+        },
+        {
+            type: 'input',
+            message: "Who is your Employee's manager?",
+            name: 'manager'
+        }
+    ]).then(({ fName, lName, role, manager }) => {
+        const sqlString = `
+        INSERT INTO employee(first_name, last_name, role_id, manager_id)
+        VALUES (?, ?, ?, ?);`
+
+        db.query(sqlString, [fName, lName, role, manager], (err, result) => { // create employee
+            if (err) throw err; // error handling
+            init();             // return to main menu
+        })
+    })
+
+
 }
 
 // Update Employee Role Function
@@ -114,6 +147,45 @@ function addRole() {
 // salary, 
 // and department for the role (and that role is added to the database)
 
+    inquirer.prompt([
+        {
+            type: 'input',
+            message: 'What is your new Role?',
+            name: 'newRole'
+        },
+        {
+            type: 'input',
+            message: 'How much is the salary?',
+            name: 'salary'
+        },
+        {
+            type: 'input',
+            message: 'What department does it belong to?',
+            name: 'dept'
+        }
+    ]).then(({ newRole, salary, dept }) => {
+        const myvar = db.query(`SELECT id FROM department WHERE name=${dept};`, (err, deptId) => { // sql query
+            if (err) throw err; // error handling
+        })
+        console.log(myvar);
+       
+       
+ 
+
+        // const sqlString = `
+        // INSERT INTO role(title, salary, department_id)
+        // VALUES (?, ?, ?);`
+
+        // db.query(sqlString, [newRole, salary, deptId], (err, result) => { // create role
+        //     if (err) throw err; // error handling
+        //     init();             // return to main menu
+        // })
+    })
+
+
+
+
+
 }
 
 // View Roles Function
@@ -123,7 +195,7 @@ function viewRoles() {
         FROM role
         INNER JOIN department ON role.department_id=department.id;`
 
-    db.query(sqlString, (err, data) => {
+    db.query(sqlString, (err, data) => { // sql query
         if (err) throw err;  // error handling
         console.table(data); // show table
         init();              // return to main menu
@@ -132,7 +204,7 @@ function viewRoles() {
 
 // View Departments function
 function viewDepts() {
-    db.query('SELECT * FROM department;', (err, data) => {
+    db.query('SELECT * FROM department;', (err, data) => { // sql query
         if(err) throw err;   // error handling
         console.table(data); // show table
         init();              // return to main menu
