@@ -13,7 +13,7 @@ const db = mysql.createConnection({
 });
 
 db.connect(function (err) {
-    if(err) throw err;
+    if (err) throw err;
     init(); // initialize app
 });
 
@@ -45,13 +45,13 @@ function init() {
             ],
             name: "option"
         }
-    ]).then(({option}) => {
+    ]).then(({ option }) => {
         switch (option) {
             case 'View All Employees':   // View all Employees
                 viewEmployees();
                 break;
             case 'Add Employee':         // Add Employee
-                addEmployee(); 
+                addEmployee();
                 break;
             case 'Update Employee Role': // Update Employee Role
                 updateEmployeeRole();
@@ -77,14 +77,14 @@ function init() {
 
 // View Employees Function
 function viewEmployees() {
-// formatted table showing employee data, 
-// including employee ids, 
-// first names, 
-// last names, 
-// job titles, 
-// departments, 
-// salaries, 
-// and managers that the employees report to
+    // formatted table showing employee data, 
+    // including employee ids, 
+    // first names, 
+    // last names, 
+    // job titles, 
+    // departments, 
+    // salaries, 
+    // and managers that the employees report to
     db.query('SELECT * FROM employee', (err, data) => {
         if (err) throw err;
         console.log('\n');
@@ -95,10 +95,10 @@ function viewEmployees() {
 
 // Add Employee Function
 function addEmployee() {
-// prompted to enter the employee’s first name, 
-// last name, 
-// role, 
-// and manager(and that employee is added to the database)
+    // prompted to enter the employee’s first name, 
+    // last name, 
+    // role, 
+    // and manager(and that employee is added to the database)
 
     inquirer.prompt([
         {
@@ -137,16 +137,17 @@ function addEmployee() {
 
 // Update Employee Role Function
 function updateEmployeeRole() {
-// prompted to select an employee to update and their new role (and this information is updated in the database)
+    // prompted to select an employee to update and their new role (and this information is updated in the database)
+    db.query('SELECT * FROM employee;', (err, data) => { // sql query
+        if (err) throw err;  // error handling
+        console.table(data); // show table
+        init();              // return to main menu
+    })
 
 }
 
 // Add Role Function
 function addRole() {
-// prompted to enter name, 
-// salary, 
-// and department for the role (and that role is added to the database)
-
     inquirer.prompt([
         {
             type: 'input',
@@ -164,28 +165,20 @@ function addRole() {
             name: 'dept'
         }
     ]).then(({ newRole, salary, dept }) => {
-        const myvar = db.query(`SELECT id FROM department WHERE name=${dept};`, (err, deptId) => { // sql query
+        db.query(`SELECT id FROM department WHERE name='${dept}';`, (err, dept_id) => { // get deptID
             if (err) throw err; // error handling
+            let deptId = dept_id[0].id; // set deptId
+
+            const sqlString = `
+            INSERT INTO role(title, salary, department_id)
+            VALUES (?, ?, ?);`
+
+            db.query(sqlString, [newRole, salary, deptId], (err, result) => { // create role
+                if (err) throw err; // error handling
+                init();             // return to main menu
+            })
         })
-        console.log(myvar);
-       
-       
- 
-
-        // const sqlString = `
-        // INSERT INTO role(title, salary, department_id)
-        // VALUES (?, ?, ?);`
-
-        // db.query(sqlString, [newRole, salary, deptId], (err, result) => { // create role
-        //     if (err) throw err; // error handling
-        //     init();             // return to main menu
-        // })
     })
-
-
-
-
-
 }
 
 // View Roles Function
@@ -205,7 +198,7 @@ function viewRoles() {
 // View Departments function
 function viewDepts() {
     db.query('SELECT * FROM department;', (err, data) => { // sql query
-        if(err) throw err;   // error handling
+        if (err) throw err;   // error handling
         console.table(data); // show table
         init();              // return to main menu
     })
@@ -219,13 +212,13 @@ function addDept() {
             message: 'What is your new Department?',
             name: 'newDept'
         }
-    ]).then(({newDept}) => {
+    ]).then(({ newDept }) => {
         const sqlString = `
         INSERT INTO department(name)
         VALUES (?);`
 
         db.query(sqlString, [newDept], (err, result) => { // sql query
-            if(err) throw err; // error handling
+            if (err) throw err; // error handling
             init();            // return to main menu
         })
     })
