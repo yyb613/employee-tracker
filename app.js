@@ -145,13 +145,14 @@ function addEmployee() {
 
 // Fetch Roles Function
 function fetchRoles() {
-  return db.promise().query("SELECT role.id, role.title FROM role")
+  return db.promise().query("SELECT role.id, role.title FROM role");
 }
 
 // Fetch Employees Function
 function fetchEmployees() {
-  return db.promise().query("SELECT employee.id, first_name, last_name FROM employee")
+  return db.promise().query("SELECT employee.id, first_name, last_name FROM employee");
 }
+
 // Update Employee Role Function
 function updateEmployeeRole() {
   fetchEmployees() // fetch employees
@@ -191,7 +192,6 @@ function updateEmployeeRole() {
 
                   db.query(sqlString, [role, employee], (err, result) => { // update employee role
                     if (err) throw err;  // error handling
-                    console.log(result); // show data
                     init(); // return to main menu
                   })
                 })
