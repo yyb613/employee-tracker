@@ -5,14 +5,14 @@ require("dotenv").config(); // dotenv
 
 // Connect to database
 const db = mysql.createConnection({
-  host: "localhost",
+  host: "localhost", // Host
   user: process.env.DB_USER, // Username
   password: process.env.DB_PASSWORD, // Password
   database: process.env.DB_DATABASE, // Database
 });
 
 db.connect(function (err) {
-  if (err) throw err;
+  if (err) throw err; // error handling
   init(); // initialize app
 });
 
