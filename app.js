@@ -81,6 +81,7 @@ function viewEmployees() {
   db.query(sqlString, (err, data) => {
     if (err) throw err; // error handling
     console.table(data); // show data
+    init(); // return to main menu
   });
 }
 
